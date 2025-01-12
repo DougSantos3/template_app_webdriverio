@@ -3,15 +3,17 @@ import Page from './page.js'
 
 class LoginPage extends Page {
   get inputUsername() {
-    return $('')
+    return $('new UiSelector().text("Email")')
   }
 
   get inputPassword() {
-    return $('')
+    return $('new UiSelector().text("Password")')
   }
 
   get btnSubmit() {
-    return $('')
+    return $(
+      'new UiSelector().className("android.view.ViewGroup").instance(16)',
+    )
   }
 
   async login(username, password) {
@@ -21,7 +23,7 @@ class LoginPage extends Page {
   }
 
   open() {
-    return super.open('')
+    return super.open('login')
   }
 }
 

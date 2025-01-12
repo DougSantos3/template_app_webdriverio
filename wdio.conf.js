@@ -11,6 +11,8 @@ if (process.env.RUN_ANDROID_LOCAL === 'true') {
     'appium:platformVersion': '15.0',
     'appium:app': './apps/android.wdio.native.app.v1.0.8.apk',
     'appium:automationName': 'UiAutomator2',
+    'appium:appPackage': 'com.wdiodemoapp',
+    'appium:appActivity': '.MainActivity',
   })
 }
 
@@ -72,6 +74,8 @@ export const config = {
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
   services: services,
+  port: 4723,
+  path: '/wd/hub',
   framework: 'mocha',
   reporters: [
     [
