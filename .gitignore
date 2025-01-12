@@ -1,3 +1,11 @@
 node_modules
 pnpm-lock.yaml
 .tool-versions
+*.txt
+*result.json
+*attachment.png
+*attachment.json
+*container.json
+*service.log
+*worker-data*.json
+funnelData.json

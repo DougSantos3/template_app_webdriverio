@@ -7,8 +7,8 @@ const capabilities = []
 if (process.env.RUN_ANDROID_LOCAL === 'true') {
   capabilities.push({
     platformName: 'Android',
-    'appium:deviceName': 'Android GoogleAPI Emulator',
-    'appium:platformVersion': '12.0',
+    'appium:deviceName': 'Smarthphone - Pixel 8 Pro API 35',
+    'appium:platformVersion': '15.0',
     'appium:app': './apps/android.wdio.native.app.v1.0.8.apk',
     'appium:automationName': 'UiAutomator2',
   })
