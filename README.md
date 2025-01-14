@@ -13,14 +13,15 @@ and Appium [`Appium`](https://appium.io/docs/en/latest/)
 You need to download the packages:
 
 ```bash
-Node: v20.18.0
+Node: v20.18.0 lts
 ```
 
 ```bash
-# npm version: 10.9.0
+# npm version: 11.0.0
 npm install -g pnpm
 ```
 ```bash
+# Download dependencies
 pnpm install
 ```
 
@@ -40,7 +41,7 @@ pnpm test:ios:local
 pnpm test:ios:browserstack
 ```
 
-## Capture elements
+## About capture elements
 ### You need to use the command in the terminal to keep Appium running.
 `appium --base-path /wd/hub`
 
@@ -48,12 +49,16 @@ pnpm test:ios:browserstack
 
 You need to download the [`appium-inspector`](https://github.com/appium/appium-inspector/releases/tag/v2024.12.1).
 
+## This is the app
+![alt text](images/appium_inspector_empty_.png)
+
 
 ### Enter Credentials
 `Remote Host: 127.0.0.1`
 `Remote Port: 4723` 
-`Remote Path: `
+`Remote Path: /wd/hub`
 
+### Android
 ```json
 {
   "platformName": "Android",
@@ -65,13 +70,20 @@ You need to download the [`appium-inspector`](https://github.com/appium/appium-i
   "appium:automationName": "UiAutomator2"
 } 
 ```
-### Example of how the Appium Inspector looks
-![alt text](/images/appium_inspector.png)
+
+### You need the name of your android emulator to be the same as the appium spector configuration
+![alt text](images/android_studio.png)
+
+
+### Examples of how appium inspector fields are filled in
+![alt text](/images/appium_inspector_filled.png )
+
+### Then just start the section
 
 <br>
 
 ## Tips
-### To discover the appPackage
+### To discover the name appPackage
 `adb install path_from_the_root_of_your_repository/test_qa_app/apps/android.wdio.native.app.v1.0.8.apk`
 
 ### Check which package 
