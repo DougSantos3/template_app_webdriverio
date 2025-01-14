@@ -1,7 +1,6 @@
 import { $ } from '@wdio/globals'
-import Page from './page.js'
 
-class LoginPage extends Page {
+class LoginPage {
   get inputUsername() {
     return $('new UiSelector().text("Email")')
   }
@@ -10,20 +9,47 @@ class LoginPage extends Page {
     return $('new UiSelector().text("Password")')
   }
 
-  get btnSubmit() {
+  get btnLogin() {
     return $(
       'new UiSelector().className("android.view.ViewGroup").instance(16)',
     )
   }
 
+  get inputConfirmPassword() {
+    return $('new UiSelector().text("Confirm password")')
+  }
+
+  get btnSignUp() {
+    return $('new UiSelector().text("SIGN UP")')
+  }
+
   async login(username, password) {
     await this.inputUsername.setValue(username)
     await this.inputPassword.setValue(password)
-    await this.btnSubmit.click()
+    await this.btnLogin.click()
   }
 
-  open() {
-    return super.open('login')
+  async signUp(username, password) {
+    await this.inputUsername.setValue(username)
+    await this.inputPassword.setValue(password)
+    await this.inputConfirmPassword.setValue(password)
+    await this.btnSignUp.click()
+  }
+
+  get messageSignedUp() {
+    return $('new UiSelector().resourceId("android:id/message")')
+  }
+
+  get wrongMessageIncorrectEmail() {
+    return $('new UiSelector().text("Please enter a valid email address")')
+  }
+
+  get wrongMessageIncorrectPassword() {
+    return $('new UiSelector().text("Please enter at least 8 characters")')
+  }
+
+  get wrongMessageIncorrectConfirmPassword() {
+    return $('new UiSelector().text("Please enter the same password")')
   }
 }
 
