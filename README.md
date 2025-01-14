@@ -1,11 +1,18 @@
 <h1 align="center">Mobile application automation with WebDriverIO and Appium</h1>
 <br />
 
+<p align="left">
+  <img src="https://sonarcloud.io/api/project_badges/measure?project=DougSantos3_test_qa_app&metric=alert_status" alt="Quality Gate Status" style="margin-right: 10px;" />
+  <img src="https://sonarcloud.io/api/project_badges/measure?project=DougSantos3_test_qa_app&metric=bugs" alt="Bugs" style="margin-right: 10px;" />
+  <img src="https://sonarcloud.io/api/project_badges/measure?project=DougSantos3_test_qa_app&metric=code_smells" alt="Code Smells" style="margin-right: 10px;" />
+  <img src="https://sonarcloud.io/api/project_badges/measure?project=DougSantos3_test_qa_app&metric=duplicated_lines_density" alt="Duplicated Lines (%)" />
+</p>
+
 
 <br>
 <br>
 
-This is a Test QA - project using [`webDriverIO`](https://webdriver.io/).
+This is a Test QA - project using [`webDriverIO`](https://webdriver.io/)
 and Appium [`Appium`](https://appium.io/docs/en/latest/)
 
 ## Getting Started
@@ -13,7 +20,8 @@ and Appium [`Appium`](https://appium.io/docs/en/latest/)
 You need to download the packages:
 
 ```bash
-Node: v20.18.0 lts
+# Node
+v20.18.0 lts
 ```
 
 ```bash
