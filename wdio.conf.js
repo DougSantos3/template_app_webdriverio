@@ -22,10 +22,10 @@ if (process.env.RUN_ANDROID_BROWSERSTACK === 'true') {
     'bstack:options': {
       userName: process.env.BROWSERSTACK_USERNAME,
       accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
-      app: 'bs://<app-id>',
+      app: 'browserstack://<app-id>',
     },
-    'appium:deviceName': 'Samsung Galaxy S22',
-    'appium:platformVersion': '13.0',
+    'appium:deviceName': 'Moto G7 Play v9.0',
+    'appium:platformVersion': '9.0',
     'appium:automationName': 'UiAutomator2',
   })
 }
@@ -33,9 +33,9 @@ if (process.env.RUN_ANDROID_BROWSERSTACK === 'true') {
 if (process.env.RUN_IOS_LOCAL === 'true') {
   capabilities.push({
     platformName: 'iOS',
-    'appium:deviceName': 'iPhone 13',
-    'appium:platformVersion': '15.0',
-    'appium:app': './path/to/ios.app',
+    'appium:deviceName': 'iPhone 15 Pro Max',
+    'appium:platformVersion': '17.0',
+    'appium:app': './apps/example.ipa',
     'appium:automationName': 'XCUITest',
   })
 }
@@ -46,10 +46,10 @@ if (process.env.RUN_IOS_BROWSERSTACK === 'true') {
     'bstack:options': {
       userName: process.env.BROWSERSTACK_USERNAME,
       accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
-      app: 'bs://<app-id>',
+      app: 'browserstack://<app-id>',
     },
-    'appium:deviceName': 'iPhone 14',
-    'appium:platformVersion': '16.0',
+    'appium:deviceName': 'iPhone 15 Pro Max',
+    'appium:platformVersion': '17.0',
     'appium:automationName': 'XCUITest',
   })
 }
