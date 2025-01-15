@@ -79,12 +79,15 @@ You need to download the [`appium-inspector`](https://github.com/appium/appium-i
 } 
 ```
 
-### You need the name of your android emulator to be the same as the appium spector configuration
-![alt text](images/android_studio.png)
+### "appium:platformVersion" is the operating system version of the Android emulator or physical device
 
+### The "appium:deviceName" is the same name as the emulator in your android studio or physical device. Example in emulator: 
+![alt text](images/android_studio.png)
 
 ### Examples of how appium inspector fields are filled in
 ![alt text](/images/appium_inspector_filled.png )
+
+
 
 ### Then just start the section
 
