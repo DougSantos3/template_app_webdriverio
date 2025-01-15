@@ -64,9 +64,9 @@ if (
 
 export const config = {
   runner: 'local',
-  specs: ['./test/specs/**/*.js'],
+  specs: ['./test/specs/**/*.test.js'],
   exclude: [],
-  maxInstances: 10,
+  maxInstances: 1,
   capabilities: capabilities,
   logLevel: 'info',
   bail: 0,
