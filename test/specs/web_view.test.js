@@ -2,19 +2,15 @@ import WebViewPage from '../pageobjects/web_view.page'
 
 describe('Navigation Menu Test', () => {
   it('should click the navigation bar button, open the menu, select API and capture message', async () => {
-    await WebViewPage.ButtonNavigationBar.click()
-
-    await browser.pause(2000)
+    await WebViewPage.navigationBarWebView.click()
     await WebViewPage.navigationDrawer.click()
-
-    await browser.pause(2000)
     await WebViewPage.menuItemApi.click()
-
-    await browser.pause(2000)
-
-    const message = await WebViewPage.messageApi
-
+    const message = await WebViewPage.textInWebPage
     await expect(message).toBeDisplayed()
-    console.log('API Message: ', await message.getText())
+
+    const messageText = await message.getText()
+    expect(messageText).toBe(
+      'Introduction',
+    )
   })
 })
