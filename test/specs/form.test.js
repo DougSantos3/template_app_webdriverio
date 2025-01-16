@@ -1,48 +1,85 @@
 import FormsPage from '../pageobjects/forms.page'
 
 describe('DropDown Interaction', () => {
+  beforeEach(async () => {
+    await browser.reloadSession()
+    await FormsPage.navigationBarWebForms.click()
+  })
+
   it('should type a random text and validate it', async () => {
-    const newText = 'Texto aleatório'
+    const randomText = 'random text'
 
-    await FormsPage.inputField.setValue(newText)
+    await FormsPage.inputField.setValue(randomText)
 
-    const fieldWithText = FormsPage.inputFieldWithText(newText)
+    const fieldWithText = FormsPage.inputFieldWithText
     await expect(fieldWithText).toBeDisplayed()
 
-    console.log('Texto validado: ', newText)
+    console.log('validated text: ', randomText)
   })
 
   it('should validate the switch toggles correctly and displays the appropriate message', async () => {
-    await SwitchPage.toogleSwitch.waitForDisplayed()
+    await FormsPage.toogleSwitch.waitForDisplayed()
 
-    let isSwitchOn = await SwitchPage.messagemTurnSwitchOff.isDisplayed()
+    let textIsSwitch = await FormsPage.messagemTurnSwitch.getText()
+    const isSwitchOn = 'Click to turn the switch ON'
+    const isSwitchOff = 'Click to turn the switch OFF'
 
-    if (isSwitchOn) {
+    if (textIsSwitch === isSwitchOn) {
       console.log('Switch is ON. Toggling to OFF.')
-      await SwitchPage.toogleSwitch.click()
+      await FormsPage.toogleSwitch.click()
 
-      await expect(SwitchPage.messagemTurnSwitchON).toBeDisplayed()
+      let updateTextIsSwitch = await FormsPage.messagemTurnSwitch.getText()
+
+      expect(updateTextIsSwitch).toBe(isSwitchOff)
     } else {
       console.log('Switch is OFF. Toggling to ON.')
-      await SwitchPage.toogleSwitch.click()
+      await FormsPage.toogleSwitch.click()
 
-      await expect(SwitchPage.messagemTurnSwitchOff).toBeDisplayed()
+      let updateTextIsSwitch = await FormsPage.messagemTurnSwitch.getText()
+
+      expect(updateTextIsSwitch).toBe(isSwitchOff)
     }
   })
 
-  it('should select an option from the dropdown', async () => {
-    FormsPage.selectOptionDropDown('webdriver.io is awesome')
+  it('should select an option webdriver.io is awesome', async () => {
+    const expectedOption = 'webdriver.io is awesome'
+
+    await FormsPage.selectOptionDropDown(expectedOption)
+
+    const actualOption = await FormsPage.textDropDown.getText()
+
+    expect(actualOption).toBe(expectedOption)
   })
 
-  it('should select an option from the dropdown', async () => {
-    FormsPage.selectOption('Appium is awesome')
+  it('should select an option Appium is awesome', async () => {
+    const expectedOption = 'Appium is awesome'
+
+    await FormsPage.selectOptionDropDown(expectedOption)
+
+    const actualOption = await FormsPage.textDropDown.getText()
+
+    expect(actualOption).toBe(expectedOption)
   })
 
-  it('should select an option from the dropdown', async () => {
-    FormsPage.selectOption('This app is awesome')
+  it('should select an option This app is awesome', async () => {
+    const expectedOption = 'This app is awesome'
+
+    await FormsPage.selectOptionDropDown(expectedOption)
+
+    const actualOption = await FormsPage.textDropDown.getText()
+
+    expect(actualOption).toBe(expectedOption)
   })
 
   it('should click Active and select an option from the modal', async () => {
     await FormsPage.selectOptionFromModal('askMeLater')
+  })
+
+  it('should click Active and select an option from the modal', async () => {
+    await FormsPage.selectOptionFromModal('cancel')
+  })
+
+  it('should click Active and select an option from the modal', async () => {
+    await FormsPage.selectOptionFromModal('ok')
   })
 })

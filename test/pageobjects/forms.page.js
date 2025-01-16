@@ -1,61 +1,66 @@
 import { $ } from '@wdio/globals'
 
 class FormsPage {
-  get inputField() {
-    return $('new UiSelector().resourceId("RNE__Input__text-input")')
+  get navigationBarWebForms() {
+    return $('//android.widget.TextView[@text="󰏫"]')
   }
 
-  inputFieldWithText(text) {
-    return $(`new UiSelector().text("${text}")`)
+  get inputField() {
+    return $('//android.widget.EditText[@content-desc="text-input"]')
+  }
+
+  get inputFieldWithText() {
+    return $('//android.widget.TextView[@content-desc="input-text-result"]')
   }
 
   get toogleSwitch() {
-    return $('new UiSelector().description("switch")')
+    return $('//android.widget.Switch[@content-desc="switch"]')
   }
 
-  get messagemTurnSwitchON() {
-    return $('new UiSelector().text("Click to turn the switch ON")')
-  }
-
-  get messagemTurnSwitchOff() {
-    return $('new UiSelector().text("Click to turn the switch OFF")')
+  get messagemTurnSwitch() {
+    return $('//android.widget.TextView[@content-desc="switch-text"]')
   }
 
   get dropDown() {
-    return $('new UiSelector().resourceId("text_input")')
+    return $('//android.widget.EditText[@resource-id="text_input"]')
   }
 
   get btnActive() {
-    return $('new UiSelector().text("Active")')
+    return $(
+      '//android.view.ViewGroup[@content-desc="button-Active"]/android.view.ViewGroup',
+    )
   }
 
   get btnAskMeLater() {
-    return $('new UiSelector().resourceId("android:id/button3")')
+    return $('id=android:id/button3')
   }
 
   get btnCancel() {
-    return $('new UiSelector().resourceId("android:id/button2")')
+    return $('id=android:id/button2')
   }
 
   get btnOk() {
-    return $('new UiSelector().resourceId("android:id/button1")')
+    return $('id=android:id/button1')
+  }
+
+  get textDropDown() {
+    return $('//android.widget.EditText[@resource-id="text_input"]')
   }
 
   async selectOptionDropDown(optionText) {
     await this.dropDown.click()
-    const option = $(`new UiSelector().text("${optionText}")`)
+    const option = $(
+      `//android.widget.CheckedTextView[@resource-id="android:id/text1" and @text="${optionText}"]`,
+    )
 
     if (!(await option.isDisplayed())) {
       throw new Error(`Option "${optionText}" not found`)
     }
-
     await option.click()
   }
 
   async selectOptionFromModal(option) {
     await this.btnActive.click()
-
-    await BrowserstackService.pause(1000)
 
     switch (option) {
       case 'askMeLater':
