@@ -37,16 +37,16 @@ Run tests:
 
 ```bash
 # Local Android device
-pnpm test:android:local
+npm run test:android:local
 
 # BrowserStack Android device
-pnpm test:android:browserstack
+npm run test:android:browserstack
 
 # Local IOS device
-pnpm test:ios:local
+npm run test:ios:local
 
 # BrowserStack IOS device
-pnpm test:ios:browserstack
+npm run test:ios:browserstack
 ```
 
 ## About capture elements

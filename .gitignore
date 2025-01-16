@@ -10,3 +10,11 @@ pnpm-lock.yaml
 *worker-data*.json
 funnelData.json
 *.png
+app.js
+index.js
+*.json
+*.csv
+*.html
+*.css
+*.ico
+*.log
