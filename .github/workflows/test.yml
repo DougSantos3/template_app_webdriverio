@@ -23,6 +23,11 @@ jobs:
       PATH: $RUNNER_TEMP/android-sdk/platform-tools:$RUNNER_TEMP/android-sdk/emulator:$PATH
 
     steps:
+      - name: Install dependencies required by the runner
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tar libgl1-mesa-dev qemu-kvm
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -40,11 +45,6 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '21'
-
-      - name: Ensure emulator dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgl1-mesa-dev qemu-kvm
 
       - name: Download and setup Android SDK
         if: startsWith(github.event.inputs.test_type, 'test:android')
