@@ -10,9 +10,9 @@ on:
         type: choice
         options:
           - test:android:local
-          - test:android:browserstack
-          - test:ios:local
-          - test:ios:browserstack
+          - test:android:browserstack(disabled)
+          - test:ios:local(disabled)
+          - test:ios:browserstack(disabled)
 
 jobs:
   run-android-tests:
