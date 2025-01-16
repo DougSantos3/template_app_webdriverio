@@ -23,10 +23,8 @@ jobs:
       PATH: $RUNNER_TEMP/android-sdk/platform-tools:$RUNNER_TEMP/android-sdk/emulator:$PATH
 
     steps:
-      - name: Install dependencies required by the runner
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y tar libgl1-mesa-dev qemu-kvm
+      - name: Install tar
+        run: apt-get update && apt-get install -y tar
 
       - name: Checkout code
         uses: actions/checkout@v3
