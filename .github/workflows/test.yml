@@ -23,9 +23,6 @@ jobs:
       PATH: $RUNNER_TEMP/android-sdk/platform-tools:$RUNNER_TEMP/android-sdk/emulator:$PATH
 
     steps:
-      - name: Install tar
-        run: apt-get update && apt-get install -y tar
-
       - name: Checkout code
         uses: actions/checkout@v3
 
