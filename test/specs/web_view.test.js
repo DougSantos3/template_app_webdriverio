@@ -9,8 +9,6 @@ describe('Navigation Menu Test', () => {
     await expect(message).toBeDisplayed()
 
     const messageText = await message.getText()
-    expect(messageText).toBe(
-      'Introduction',
-    )
+    expect(messageText).toBe('Introduction')
   })
 })

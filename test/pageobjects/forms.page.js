@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class FormsPage {
   get navigationBarWebForms() {
-    return $('//android.widget.TextView[@text="󰏫"]')
+    return $('//android.view.View[@content-desc="Forms"]')
   }
 
   get inputField() {

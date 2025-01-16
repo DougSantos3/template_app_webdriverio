@@ -27,17 +27,6 @@ describe('Login Tests', () => {
     const message = LoginPage.messageSignedUp
 
     await expect(message).toBeDisplayed()
-
-    /* quando clica no botão de confirmar o botão se perde e não consegue depois identifica
-    a modal para capturar o texto de Signed Up!
-
-    expect(messageText).toBe('Signed Up!') */
-  })
-
-  testData.forEach(({ username, password }) => {
-    it(`should test login for ${username}`, async () => {
-      await LoginPage.login(username, password)
-    })
   })
 
   it('should display an error message when email is missing', async () => {
@@ -61,17 +50,26 @@ describe('Login Tests', () => {
     await LoginPage.inputConfirmPassword.setValue(password)
     await LoginPage.btnSignUp.click()
 
-    const elementIncorrectPassword = await LoginPage.wrongMessageIncorrectPassword
+    const elementIncorrectPassword =
+      await LoginPage.wrongMessageIncorrectPassword
     await expect(elementIncorrectPassword).toBeDisplayed()
-    const messageTextIncorrectPassword = await elementIncorrectPassword.getText()
+    const messageTextIncorrectPassword =
+      await elementIncorrectPassword.getText()
 
-    const elementIncorrectConfirmPassword = await LoginPage.wrongMessageIncorrectConfirmPassword
+    const elementIncorrectConfirmPassword =
+      await LoginPage.wrongMessageIncorrectConfirmPassword
     await expect(elementIncorrectConfirmPassword).toBeDisplayed()
-    const messageTextIncorrectConfirmPassword = await elementIncorrectConfirmPassword.getText()
+    const messageTextIncorrectConfirmPassword =
+      await elementIncorrectConfirmPassword.getText()
 
-    expect(messageTextIncorrectPassword).toBe('Please enter at least 8 characters')
-    expect(messageTextIncorrectConfirmPassword).toBe('Please enter the same password',)
+    expect(messageTextIncorrectPassword).toBe(
+      'Please enter at least 8 characters',
+    )
+    expect(messageTextIncorrectConfirmPassword).toBe(
+      'Please enter the same password',
+    )
   })
+
   it('should display an error message when confirm password is missing', async () => {
     await LoginPage.linkSignUp.click()
     await LoginPage.inputUsername.setValue(email)
@@ -84,5 +82,12 @@ describe('Login Tests', () => {
     const messageText = await message.getText()
 
     expect(messageText).toBe('Please enter the same password')
+  })
+
+  /* optional */
+  testData.forEach(({ username, password }) => {
+    it(`should test login for ${username}`, async () => {
+      await LoginPage.login(username, password)
+    })
   })
 })

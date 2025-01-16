@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class LoginPage {
   get navigationBarLogin() {
-    return $('//android.widget.TextView[@text="󰍂"]')
+    return $('//android.view.View[@content-desc="Login"]')
   }
 
   get linkSignUp() {

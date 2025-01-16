@@ -1,122 +1,144 @@
 import { $ } from '@wdio/globals'
 
 class DragPage {
+  get navigationBarDrag() {
+    return $('//android.view.View[@content-desc="Drag"]')
+  }
+
   get leftEarPuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(8)',
+      '//android.view.ViewGroup[@content-desc="drag-l1"]/android.widget.ImageView',
     )
   }
 
   get headPuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(4)',
+      '//android.view.ViewGroup[@content-desc="drag-c1"]/android.widget.ImageView',
     )
   }
 
   get rightEarPuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(3)',
+      '//android.view.ViewGroup[@content-desc="drag-r1"]/android.widget.ImageView',
     )
   }
 
   get leftArmPuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(1)',
+      '//android.view.ViewGroup[@content-desc="drag-l2"]/android.widget.ImageView',
     )
   }
 
   get bellyPuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(7)',
+      '//android.view.ViewGroup[@content-desc="drag-c2"]/android.widget.ImageView',
     )
   }
 
   get rightArmPuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(6)',
+      '//android.view.ViewGroup[@content-desc="drag-r2"]/android.widget.ImageView',
     )
   }
 
   get leftFootpuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(9)',
+      '//android.view.ViewGroup[@content-desc="drag-l3"]/android.widget.ImageView',
     )
   }
 
   get leftAndRightLegPuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(5)',
+      '//android.view.ViewGroup[@content-desc="drag-c3"]/android.widget.ImageView',
     )
   }
 
   get rightFootpuzzlePiece() {
     return $(
-      'new UiSelector().className("android.widget.ImageView").instance(2)',
+      '//android.view.ViewGroup[@content-desc="drag-r3"]/android.widget.ImageView',
     )
   }
 
   get boardLeftEar() {
-    return $('new UiSelector().className("android.view.ViewGroup").instance(8)')
+    return $(
+      '//android.view.ViewGroup[@content-desc="drop-l1"]/android.view.ViewGroup',
+    )
   }
 
   get boadHead() {
     return $(
-      'new UiSelector().className("android.view.ViewGroup").instance(10)',
+      '//android.view.ViewGroup[@content-desc="drop-c1"]/android.view.ViewGroup',
     )
   }
 
   get boardRightEar() {
     return $(
-      'new UiSelector().className("android.view.ViewGroup").instance(12)',
+      '//android.view.ViewGroup[@content-desc="drop-r1"]/android.view.ViewGroup)',
     )
   }
 
   get boardLeftArm() {
     return $(
-      'new UiSelector().className("android.view.ViewGroup").instance(14)',
+      '//android.view.ViewGroup[@content-desc="drop-l2"]/android.view.ViewGroup',
     )
   }
 
   get boardBelly() {
     return $(
-      'new UiSelector().className("android.view.ViewGroup").instance(16)',
+      '//android.view.ViewGroup[@content-desc="drop-c2"]/android.view.ViewGroup',
     )
   }
 
   get boardRightArm() {
     return $(
-      'new UiSelector().className("android.view.ViewGroup").instance(18)',
+      '//android.view.ViewGroup[@content-desc="drop-r2"]/android.view.ViewGroup',
     )
   }
 
   get boardLeftFoot() {
     return $(
-      'new UiSelector().className("android.view.ViewGroup").instance(20)',
+      '//android.view.ViewGroup[@content-desc="drop-l3"]/android.view.ViewGroup',
     )
   }
 
   get boardLeftAndRightLeg() {
     return $(
-      'new UiSelector().className("android.view.ViewGroup").instance(22)',
+      '//android.view.ViewGroup[@content-desc="drop-c3"]/android.view.ViewGroup',
     )
   }
 
   get boardRightFoot() {
     return $(
-      'new UiSelector().className("android.view.ViewGroup").instance(24)',
+      '//android.view.ViewGroup[@content-desc="drop-r3"]/android.view.ViewGroup',
     )
   }
 
   get messageCompleted() {
-    return $('new UiSelector().text("Congratulations")')
+    return $('//android.widget.TextView[@text="Congratulations"]')
   }
 
   get btnRetry() {
-    return $('new UiSelector().text("Retry")')
+    return $(
+      '//android.view.ViewGroup[@content-desc="button-Retry"]/android.view.ViewGroup',
+    )
   }
 
   async dragDropPuzzlePiece(puzzlePiece, board) {
-    await puzzlePiece.dragAndDrop(board)
+    await puzzlePiece.waitForDisplayed()
+    await board.waitForDisplayed()
+
+    if ((await puzzlePiece.isDisplayed()) && (await board.isDisplayed())) {
+      const puzzlePieceLocation = await puzzlePiece.getLocation()
+      const boardLocation = await board.getLocation()
+
+      await browser.touchAction([
+        { action: 'press', x: puzzlePieceLocation.x, y: puzzlePieceLocation.y }, 
+        { action: 'moveTo', x: boardLocation.x, y: boardLocation.y }, 
+        { action: 'release' }, 
+      ])
+    } else {
+      throw new Error('Um ou ambos os elementos não estão visíveis')
+    }
   }
 }
 

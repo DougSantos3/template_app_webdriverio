@@ -2,7 +2,7 @@ import { $ } from '@wdio/globals'
 
 class WebViewPage {
   get navigationBarWebView() {
-    return $('//android.widget.TextView[@text="󰖟"]')
+    return $('//android.view.View[@content-desc="Webview"]')
   }
 
   get navigationDrawer() {
