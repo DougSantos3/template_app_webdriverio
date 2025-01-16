@@ -50,16 +50,13 @@ jobs:
       - name: Install Android dependencies
         run: |
           sdkmanager --update
-          sdkmanager "system-images;android-30;google_apis;armeabi-v7a" "platform-tools" "emulator" "platforms;android-30"
+          sdkmanager "system-images;android-30;default;x86_64" "platform-tools" "emulator" "platforms;android-30"
 
       - name: Start emulator
         if: github.event.inputs.test_type == 'test:android:local'
         run: |
-          # Criação do AVD com a imagem ARM que não precisa de aceleração de hardware
-          avdmanager create avd -n test -k "system-images;android-30;google_apis;armeabi-v7a" --device "pixel"
-          
-          # Iniciar o emulador sem a aceleração de hardware (usando imagem ARM)
-          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-boot-anim -gpu off &
+          avdmanager create avd -n test -k "system-images;android-30;default;x86_64" --device "pixel"
+          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-boot-anim -accel on &
           adb wait-for-device || (echo "Emulator failed to start" && exit 1)
           adb shell input keyevent 82
 
