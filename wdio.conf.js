@@ -1,4 +1,6 @@
 import dotenv from 'dotenv'
+import path from 'path'
+import fs from 'fs'
 
 dotenv.config()
 
@@ -6,10 +8,10 @@ const capabilities = []
 
 if (process.env.RUN_ANDROID_LOCAL === 'true') {
   capabilities.push({
-    platformName: 'Android',
-    'appium:deviceName': 'Smarthphone - Pixel 8 Pro API 35',
-    'appium:platformVersion': '15.0',
-    'appium:app': './apps/android.wdio.native.app.v1.0.8.apk',
+    platformName: process.env.PLATFORM,
+    'appium:deviceName': process.env.DEVICE,
+    'appium:platformVersion': process.env.PLATFORM_VERSION,
+    'appium:app': process.env.APP_BINARY_PATH,
     'appium:automationName': 'UiAutomator2',
     'appium:appPackage': 'com.wdiodemoapp',
     'appium:appActivity': '.MainActivity',
@@ -18,38 +20,38 @@ if (process.env.RUN_ANDROID_LOCAL === 'true') {
 
 if (process.env.RUN_ANDROID_BROWSERSTACK === 'true') {
   capabilities.push({
-    platformName: 'Android',
+    platformName: process.env.PLATFORM,
     'bstack:options': {
       userName: process.env.BROWSERSTACK_USERNAME,
       accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
-      app: 'browserstack://<app-id>',
+      app: APP_ID,
     },
-    'appium:deviceName': 'Moto G7 Play v9.0',
-    'appium:platformVersion': '9.0',
+    'appium:deviceName': process.env.DEVICE,
+    'appium:platformVersion': process.env.PLATFORM_VERSION,
     'appium:automationName': 'UiAutomator2',
   })
 }
 
 if (process.env.RUN_IOS_LOCAL === 'true') {
   capabilities.push({
-    platformName: 'iOS',
-    'appium:deviceName': 'iPhone 15 Pro Max',
-    'appium:platformVersion': '17.0',
-    'appium:app': './apps/example.ipa',
+    platformName: process.env.PLATFORM,
+    'appium:deviceName': process.env.DEVICE,
+    'appium:platformVersion': process.env.PLATFORM_VERSION,
+    'appium:app': process.env.APP_BINARY_PATH,
     'appium:automationName': 'XCUITest',
   })
 }
 
 if (process.env.RUN_IOS_BROWSERSTACK === 'true') {
   capabilities.push({
-    platformName: 'iOS',
+    platformName: process.env.PLATFORM,
     'bstack:options': {
       userName: process.env.BROWSERSTACK_USERNAME,
       accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
-      app: 'browserstack://<app-id>',
+      app: APP_ID,
     },
-    'appium:deviceName': 'iPhone 15 Pro Max',
-    'appium:platformVersion': '17.0',
+    'appium:deviceName': process.env.DEVICE,
+    'appium:platformVersion': process.env.PLATFORM_VERSION,
     'appium:automationName': 'XCUITest',
   })
 }
@@ -84,6 +86,13 @@ export const config = {
         outputDir: 'allure-results',
         disableWebdriverStepsReporting: false,
         disableWebdriverScreenshotsReporting: false,
+        environment: {
+          Platform: process.env.PLATFORM,
+          Device: process.env.DEVICE,
+          'App Version': process.env.APP_VERSION,
+          Automation: 'Appium',
+          'Platform Version': process.env.PLATFORM_VERSION,
+        },
       },
     ],
     'json',
@@ -98,7 +107,24 @@ export const config = {
     { error, result, duration, passed, retries },
   ) {
     if (!passed) {
-      await browser.takeScreenshot()
+      try {
+        const failedTestsDir = path.join(process.cwd(), 'evidence_tests_failed')
+
+        if (!fs.existsSync(failedTestsDir)) {
+          fs.mkdirSync(failedTestsDir, { recursive: true })
+        }
+
+        const screenshotName = `${test.title.replace(/\s+/g, '_')}_${Date.now()}.png`
+        const screenshotPath = path.join(failedTestsDir, screenshotName)
+
+        const screenshot = await browser.takeScreenshot()
+
+        fs.writeFileSync(screenshotPath, screenshot, 'base64')
+
+        console.log(`Screenshot saved: ${screenshotPath}`)
+      } catch (err) {
+        console.error('Error taking screenshot:', err)
+      }
     }
   },
 }
