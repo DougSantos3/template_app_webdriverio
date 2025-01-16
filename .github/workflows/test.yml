@@ -16,15 +16,11 @@ on:
 
 jobs:
   run-android-tests:
-    runs-on: macos-latest
-
-    env:
-      ANDROID_HOME: $RUNNER_TEMP/android-sdk
-      PATH: $RUNNER_TEMP/android-sdk/platform-tools:$RUNNER_TEMP/android-sdk/emulator:$PATH
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -94,3 +90,5 @@ jobs:
         run: |
           npm run allure:generate
           npm run allure:open
+
+          
