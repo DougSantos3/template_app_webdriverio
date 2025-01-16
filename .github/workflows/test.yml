@@ -37,6 +37,11 @@ jobs:
           distribution: 'adopt'
           java-version: '21'
 
+      - name: Ensure emulator dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-dev qemu-kvm
+
       - name: Download and setup Android SDK
         if: startsWith(github.event.inputs.test_type, 'test:android')
         uses: android-actions/setup-android@v2
@@ -50,12 +55,18 @@ jobs:
       - name: Start emulator
         if: github.event.inputs.test_type == 'test:android:local'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-kvm
           avdmanager create avd -n test -k "system-images;android-30;default;x86_64" --device "pixel"
           $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-boot-anim -accel on &
-          adb wait-for-device
+          adb wait-for-device || (echo "Emulator failed to start" && exit 1)
           adb shell input keyevent 82
+
+      - name: Debug emulator
+        run: adb devices
+
+      - name: Start emulator with debug logs
+        run: |
+          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-boot-anim -debug-init &
+          adb wait-for-device
 
       - name: Run specified tests
         run: npm run ${{ github.event.inputs.test_type }}
