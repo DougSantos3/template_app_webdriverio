@@ -16,7 +16,7 @@ on:
 
 jobs:
   run-android-tests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     env:
       ANDROID_HOME: $RUNNER_TEMP/android-sdk
