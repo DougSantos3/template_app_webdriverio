@@ -17,7 +17,6 @@ on:
 jobs:
   run-android-tests:
     runs-on: ubuntu-latest
-
     steps:
       - name: Clone repository
         uses: actions/checkout@v3
@@ -52,7 +51,33 @@ jobs:
           sdkmanager --update
           sdkmanager "system-images;android-30;default;x86_64" "platform-tools" "emulator" "platforms;android-30"
 
-      - name: Start emulator
+      - name: Run Android tests on BrowserStack
+        if: github.event.inputs.test_type == 'test:android:browserstack'
+        run: |
+          export PLATFORM="Android"
+          export DEVICE="Pixel 8 Pro API 35"
+          export PLATFORM_VERSION="15.0"
+          export APP_BINARY_PATH="./apps/android.wdio.native.app.v1.0.8.apk"
+          export BROWSERSTACK_USERNAME="${{ secrets.BROWSERSTACK_USERNAME }}"
+          export BROWSERSTACK_ACCESS_KEY="${{ secrets.BROWSERSTACK_ACCESS_KEY }}"
+          
+          capabilities=$(cat <<EOF
+          {
+            "platformName": "$PLATFORM",
+            "bstack:options": {
+              "userName": "$BROWSERSTACK_USERNAME",
+              "accessKey": "$BROWSERSTACK_ACCESS_KEY",
+              "app": "browserstack://<app-id>"
+            },
+            "appium:deviceName": "$DEVICE",
+            "appium:platformVersion": "$PLATFORM_VERSION",
+            "appium:automationName": "UiAutomator2"
+          }
+          EOF
+          )
+          # Execute your tests on BrowserStack with capabilities
+
+      - name: Run Android local tests
         if: github.event.inputs.test_type == 'test:android:local'
         run: |
           avdmanager create avd -n test -k "system-images;android-30;default;x86_64" --device "pixel"
@@ -69,7 +94,6 @@ jobs:
   run-ios-tests:
     runs-on: macos-latest
     if: startsWith(github.event.inputs.test_type, 'test:ios')
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -83,9 +107,37 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run specified iOS tests
-        run: npm run ${{ github.event.inputs.test_type }}
+      - name: Run iOS tests on BrowserStack
+        if: github.event.inputs.test_type == 'test:ios:browserstack'
+        run: |
+          export PLATFORM="iOS"
+          export DEVICE="iPhone 14"
+          export PLATFORM_VERSION="15.0"
+          export APP_BINARY_PATH="./apps/ios.wdio.native.app.v1.0.8.ipa"
+          export BROWSERSTACK_USERNAME="${{ secrets.BROWSERSTACK_USERNAME }}"
+          export BROWSERSTACK_ACCESS_KEY="${{ secrets.BROWSERSTACK_ACCESS_KEY }}"
 
+          capabilities=$(cat <<EOF
+          {
+            "platformName": "$PLATFORM",
+            "bstack:options": {
+              "userName": "$BROWSERSTACK_USERNAME",
+              "accessKey": "$BROWSERSTACK_ACCESS_KEY",
+              "app": "browserstack://<app-id>"
+            },
+            "appium:deviceName": "$DEVICE",
+            "appium:platformVersion": "$PLATFORM_VERSION",
+            "appium:automationName": "XCUITest"
+          }
+          EOF
+          )
+          # Execute your tests on BrowserStack with capabilities
+
+      - name: Run iOS local tests
+        if: github.event.inputs.test_type == 'test:ios:local'
+        run: |
+          # Add your local iOS testing steps here, if any
+          
       - name: Generate Allure report
         run: |
           npm run allure:generate
