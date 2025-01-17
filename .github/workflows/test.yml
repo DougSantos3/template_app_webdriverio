@@ -6,32 +6,29 @@ on:
       test_type:
         description: 'Specify the test to run'
         required: true
-        default: 'test:android:local'
+        default: 'test:android'
         type: choice
         options:
-          - test:android:local
+          - test:android
           - test:android:browserstack(disabled)
-          - test:ios:local(disabled)
+          - test:ios(disabled)
           - test:ios:browserstack(disabled)
 
 jobs:
   run-android-tests:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Clone repository
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.18.0'
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          node-version: 20.18.0
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Set up JDK 21
         uses: actions/setup-java@v2
@@ -49,37 +46,96 @@ jobs:
           profile: default
           ndk: '21.4.7075529'
 
-      - name: Start emulator
-        if: github.event.inputs.test_type == 'test:android:local'
+      - name: Install Android dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-kvm
+          sdkmanager --update
+          sdkmanager "system-images;android-30;default;x86_64" "platform-tools" "emulator" "platforms;android-30"
+
+      - name: Run Android tests on BrowserStack
+        if: github.event.inputs.test_type == 'test:android:browserstack'
+        run: |
+          export PLATFORM="Android"
+          export DEVICE="Pixel 8 Pro API 35"
+          export PLATFORM_VERSION="15.0"
+          export APP_BINARY_PATH="./apps/android.wdio.native.app.v1.0.8.apk"
+          export BROWSERSTACK_USERNAME="${{ secrets.BROWSERSTACK_USERNAME }}"
+          export BROWSERSTACK_ACCESS_KEY="${{ secrets.BROWSERSTACK_ACCESS_KEY }}"
+          
+          capabilities=$(cat <<EOF
+          {
+            "platformName": "$PLATFORM",
+            "bstack:options": {
+              "userName": "$BROWSERSTACK_USERNAME",
+              "accessKey": "$BROWSERSTACK_ACCESS_KEY",
+              "app": "browserstack://<app-id>"
+            },
+            "appium:deviceName": "$DEVICE",
+            "appium:platformVersion": "$PLATFORM_VERSION",
+            "appium:automationName": "UiAutomator2"
+          }
+          EOF
+          )
+
+      - name: Run Android tests
+        if: github.event.inputs.test_type == 'test:android'
+        run: |
           avdmanager create avd -n test -k "system-images;android-30;default;x86_64" --device "pixel"
           $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-boot-anim -accel on &
-          adb wait-for-device
+          adb wait-for-device || (echo "Emulator failed to start" && exit 1)
           adb shell input keyevent 82
 
+      - name: Debug emulator
+        run: adb devices
+
       - name: Run specified tests
-        run: pnpm ${{ github.event.inputs.test_type }}
+        run: npm run ${{ github.event.inputs.test_type }}
 
   run-ios-tests:
     runs-on: macos-latest
     if: startsWith(github.event.inputs.test_type, 'test:ios')
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.18.0'
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          node-version: 20.18.0
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
-      - name: Run specified iOS tests
-        run: pnpm ${{ github.event.inputs.test_type }}
+      - name: Run iOS tests on BrowserStack
+        if: github.event.inputs.test_type == 'test:ios:browserstack'
+        run: |
+          export PLATFORM="iOS"
+          export DEVICE="iPhone 14"
+          export PLATFORM_VERSION="15.0"
+          export APP_BINARY_PATH="./apps/ios.wdio.native.app.v1.0.8.ipa"
+          export BROWSERSTACK_USERNAME="${{ secrets.BROWSERSTACK_USERNAME }}"
+          export BROWSERSTACK_ACCESS_KEY="${{ secrets.BROWSERSTACK_ACCESS_KEY }}"
+
+          capabilities=$(cat <<EOF
+          {
+            "platformName": "$PLATFORM",
+            "bstack:options": {
+              "userName": "$BROWSERSTACK_USERNAME",
+              "accessKey": "$BROWSERSTACK_ACCESS_KEY",
+              "app": "browserstack://<app-id>"
+            },
+            "appium:deviceName": "$DEVICE",
+            "appium:platformVersion": "$PLATFORM_VERSION",
+            "appium:automationName": "XCUITest"
+          }
+          EOF
+          )
+
+      - name: Run iOS tests
+        if: github.event.inputs.test_type == 'test:ios'
+        run: |
+          
+      - name: Generate Allure report
+        run: |
+          npm run allure:generate
+          npm run allure:open

@@ -2,15 +2,15 @@
   "name": "teste_qa_app",
   "type": "module",
   "scripts": {
+    "test:android": "RUN_ANDROID=true npx wdio run wdio.conf.js && pnpm exec allure generate allure-results --clean && pnpm exec allure open",
+    "test:android:browserstack": "RUN_ANDROID_BROWSERSTACK=true npx wdio run wdio.conf.js ",
+    "test:ios": "RUN_IOS=true npx wdio run wdio.conf.js && pnpm exec allure generate allure-results --clean && pnpm exec allure open",
+    "test:ios:browserstack": "RUN_IOS_BROWSERSTACK=true npx wdio run wdio.conf.js",
     "wdio": "wdio run ./wdio.conf.js",
     "test": "npx wdio run wdio.conf.js",
-    "allure": "allure-commandline",
     "format": "prettier --write .",
-    "report": "allure generate allure-results --clean && allure open",
-    "test:android:local": "RUN_ANDROID_LOCAL=true npx wdio run wdio.conf.js && pnpm exec allure generate allure-results --clean && pnpm exec allure open",
-    "test:android:browserstack": "RUN_ANDROID_BROWSERSTACK=true npx wdio run wdio.conf.js ",
-    "test:ios:local": "RUN_IOS_LOCAL=true npx wdio run wdio.conf.js && pnpm exec allure generate allure-results --clean && pnpm exec allure open",
-    "test:ios:browserstack": "RUN_IOS_BROWSERSTACK=true npx wdio run wdio.conf.js"
+    "allure": "allure-commandline",
+    "report": "allure generate allure-results --clean && allure open"
   },
   "dependencies": {
     "dotenv": "^16.4.7"

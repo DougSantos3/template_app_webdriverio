@@ -36,18 +36,27 @@ pnpm install
 Run tests:
 
 ```bash
-# Local Android device
-pnpm test:android:local
+# Android device
+npm run test:android
 
 # BrowserStack Android device
-pnpm test:android:browserstack
+npm run test:android:browserstack
 
-# Local IOS device
-pnpm test:ios:local
+# IOS device
+npm run test:ios
 
 # BrowserStack IOS device
-pnpm test:ios:browserstack
+npm run test:ios:browserstack
 ```
+
+## Tests Overview
+
+- Test on the home page validating the text on it.
+- Test in the web view by clicking the side menu on the API option and validating the text that appears after clicking the menu.
+- Test on login, authenticating, creating a new user, and validating each error if any field is not filled in during registration.
+- Test forms, validate text input and display below, toggle button, button that shows a modal, and dropdown.
+
+<br>
 
 ## About capture elements
 ### You need to use the command in the terminal to keep Appium running.
