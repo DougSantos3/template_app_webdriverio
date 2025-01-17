@@ -30,7 +30,7 @@ npm install -g pnpm
 ```
 ```bash
 # Download dependencies
-pnpm install
+npm install
 ```
 
 Run tests:
@@ -110,4 +110,4 @@ You need to download the [`appium-inspector`](https://github.com/appium/appium-i
 `adb shell pm list packages | grep wdio`
 
 
-#### After running the tests, a website with the Allure report will open in the Browser. Note that the current terminal session will be locked to the report; if you close the terminal, the report will no longer be accessible. However, you can use this command to view it again: `pnpm exec allure open` and it will display a link in the terminal. Copy it and access it in the browser to see the test cases again.
+#### After running the tests, a website with the Allure report will open in the Browser. Note that the current terminal session will be locked to the report; if you close the terminal, the report will no longer be accessible. However, you can use this command to view it again: `npm exec allure open` and it will display a link in the terminal. Copy it and access it in the browser to see the test cases again.
