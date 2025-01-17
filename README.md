@@ -25,11 +25,7 @@ v20.18.0 lts
 ```
 
 ```bash
-# npm version: 11.0.0
-npm install -g pnpm
-```
-```bash
-# Download dependencies
+# npm version: 11.0.0 and download dependencies
 npm install
 ```
 
