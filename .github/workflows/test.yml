@@ -6,12 +6,12 @@ on:
       test_type:
         description: 'Specify the test to run'
         required: true
-        default: 'test:android:local'
+        default: 'test:android'
         type: choice
         options:
-          - test:android:local
+          - test:android
           - test:android:browserstack(disabled)
-          - test:ios:local(disabled)
+          - test:ios(disabled)
           - test:ios:browserstack(disabled)
 
 jobs:
@@ -75,10 +75,9 @@ jobs:
           }
           EOF
           )
-          # Execute your tests on BrowserStack with capabilities
 
-      - name: Run Android local tests
-        if: github.event.inputs.test_type == 'test:android:local'
+      - name: Run Android tests
+        if: github.event.inputs.test_type == 'test:android'
         run: |
           avdmanager create avd -n test -k "system-images;android-30;default;x86_64" --device "pixel"
           $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-boot-anim -accel on &
@@ -131,12 +130,10 @@ jobs:
           }
           EOF
           )
-          # Execute your tests on BrowserStack with capabilities
 
-      - name: Run iOS local tests
-        if: github.event.inputs.test_type == 'test:ios:local'
+      - name: Run iOS tests
+        if: github.event.inputs.test_type == 'test:ios'
         run: |
-          # Add your local iOS testing steps here, if any
           
       - name: Generate Allure report
         run: |

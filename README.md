@@ -36,14 +36,14 @@ pnpm install
 Run tests:
 
 ```bash
-# Local Android device
-npm run test:android:local
+# Android device
+npm run test:android
 
 # BrowserStack Android device
 npm run test:android:browserstack
 
-# Local IOS device
-npm run test:ios:local
+# IOS device
+npm run test:ios
 
 # BrowserStack IOS device
 npm run test:ios:browserstack

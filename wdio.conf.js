@@ -6,7 +6,7 @@ dotenv.config()
 
 const capabilities = []
 
-if (process.env.RUN_ANDROID_LOCAL === 'true') {
+if (process.env.RUN_ANDROID === 'true') {
   capabilities.push({
     platformName: process.env.PLATFORM,
     'appium:deviceName': process.env.DEVICE,
@@ -32,7 +32,7 @@ if (process.env.RUN_ANDROID_BROWSERSTACK === 'true') {
   })
 }
 
-if (process.env.RUN_IOS_LOCAL === 'true') {
+if (process.env.RUN_IOS === 'true') {
   capabilities.push({
     platformName: process.env.PLATFORM,
     'appium:deviceName': process.env.DEVICE,
