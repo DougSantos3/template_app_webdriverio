@@ -10,6 +10,11 @@
 
 
 <br>
+
+<p align="center">
+  <img alt="Examples" src=".github/test_example.gif" width="100%">
+</p>
+
 <br>
 
 This is a Test QA - project using [`webDriverIO`](https://webdriver.io/)
@@ -39,13 +44,13 @@ Run tests:
 # Android device
 npm run test:android
 
-# BrowserStack Android device
+# BrowserStack Android device(building)
 npm run test:android:browserstack
 
-# IOS device
+# IOS device(building)
 npm run test:ios
 
-# BrowserStack IOS device
+# BrowserStack IOS device(building)
 npm run test:ios:browserstack
 ```
 
@@ -67,8 +72,10 @@ npm run test:ios:browserstack
 You need to download the [`appium-inspector`](https://github.com/appium/appium-inspector/releases/tag/v2024.12.1).
 
 ## This is the app
-![alt text](images/appium_inspector_empty_.png)
 
+<p align="center">
+  <img alt="Examples" src=".github/appium_inspector_empty_.png" width="100%">
+</p>
 
 ### Enter Credentials
 `Remote Host: 127.0.0.1`
@@ -91,11 +98,16 @@ You need to download the [`appium-inspector`](https://github.com/appium/appium-i
 ### "appium:platformVersion" is the operating system version of the Android emulator or physical device
 
 ### The "appium:deviceName" is the same name as the emulator in your android studio or physical device. Example in emulator: 
-![alt text](images/android_studio.png)
+
+<p align="center">
+  <img alt="Examples" src=".github/android_studio.png" width="100%">
+</p>
+
 
 ### Examples of how appium inspector fields are filled in
-![alt text](/images/appium_inspector_filled.png )
-
+<p align="center">
+  <img alt="Examples" src=".github/appium_inspector_filled.png" width="100%">
+</p>
 
 
 ### Then just start the section
