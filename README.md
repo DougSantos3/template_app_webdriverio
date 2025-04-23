@@ -97,9 +97,9 @@ You need to download the [`appium-inspector`](https://github.com/appium/appium-i
 ```
 
 
-### "appium:platformVersion" is the operating system version of the Android emulator or physical device
+#### "appium:platformVersion" is the operating system version of the Android emulator or physical device
 
-### The "appium:deviceName" is the same name as the emulator in your android studio or physical device. Example in emulator: 
+#### The "appium:deviceName" is the same name as the emulator in your android studio or physical device. Example in emulator: 
 
 <p align="center">
   <img alt="Examples" src=".github/android_studio.png" width="100%">
