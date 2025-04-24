@@ -34,6 +34,11 @@ v20.18.0 lts
 npm install
 ```
 
+# Open Appium
+```bash
+appium
+```
+
 Run tests:
 
 ```bash
