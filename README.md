@@ -39,6 +39,14 @@ npm install
 appium
 ```
 
+```bash
+# You need install uiautomator2 in you OS
+# Bellow download in linux
+appium driver install uiautomator2
+appium driver install xcuitest
+
+```
+
 Run tests:
 
 ```bash
