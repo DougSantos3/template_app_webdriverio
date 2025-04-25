@@ -104,12 +104,6 @@ You need to download the [`appium-inspector`](https://github.com/appium/appium-i
 } 
 ```
 
-### Need install uiautomator2
-```json 
-  appium driver install uiautomator2
-```
-
-
 #### "appium:platformVersion" is the operating system version of the Android emulator or physical device
 
 #### The "appium:deviceName" is the same name as the emulator in your android studio or physical device. Example in emulator: 
